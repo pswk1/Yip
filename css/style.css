@@ -33,7 +33,15 @@ h1 {
     background-color: teal;
 }
 
+#target {
+  font-family: "Ubuntu", sans-serif;
+  font-weight: bold;
+  font-size: 72px;
+}
 
+.hide {
+  display: none;
+  }
 
 #subtitle {
   background-color: teal;
@@ -77,5 +85,11 @@ h1 {
 }
 
 footer.page-footer {
+  margin: 0;
+  /* height: 200px; */
+}
+
+footer.footer-copyright {
+  height: 0px;
   margin: 0;
 }
