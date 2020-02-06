@@ -27,35 +27,48 @@ let establishmentArr = [];
 
 
 
-$.ajax({
-    url: `https://developers.zomato.com/api/v2.1/cities?q=${city}`,
-    method: "GET",
-    headers: {
-        "user-key" : "5b9c13f9e30c6d6bcd91ac54f9a8bf91"
-    }
-}).then(function(response) {
-    //Stores City id
-    cityId = response.location_suggestions[0].id;
+$("#searchBtn1").click(function () {
+
+    city = $("#searchCityId").val();
+
     $.ajax({
-        url: `https://developers.zomato.com/api/v2.1/establishments?city_id=${cityId}`,
+        url: `https://developers.zomato.com/api/v2.1/cities?q=${city}`,
         method: "GET",
         headers: {
-            "user-key" : "5b9c13f9e30c6d6bcd91ac54f9a8bf91"
+            "user-key": "5b9c13f9e30c6d6bcd91ac54f9a8bf91"
         }
-    }).then(function(response) {
-        establishmentArr = makeEstablishmentArray(response);
-    })
-    //This one funcions to find the cuisine id
-    $.ajax({
-        url: `https://developers.zomato.com/api/v2.1/cuisines?city_id=${cityId}`,
-        method: "GET",
-        headers: {
-            "user-key" : "5b9c13f9e30c6d6bcd91ac54f9a8bf91"
-        }
-    }).then(function(response) {
-        cuisineId = findCuisineId(response, userCuisine);
-        cuisineArr = makeCuisineArray(response);
-        //Returns results for city and cuisine search
+    }).then(function (response) {
+        //Stores City id
+        console.log(response);
+        $("#parameters").removeClass("hide");
+        cityId = response.location_suggestions[0].id;
+        populateDropdown(categories, $("#category"));
+
+        $.ajax({
+            url: `https://developers.zomato.com/api/v2.1/establishments?city_id=${cityId}`,
+            method: "GET",
+            headers: {
+                "user-key": "5b9c13f9e30c6d6bcd91ac54f9a8bf91"
+            }
+        }).then(function (response) {
+            console.log(response);
+            establishmentArr = makeEstablishmentArray(response);
+            populateDropdown(establishmentArr, $("#establishment"));
+        })
+        //This one funcions to find the cuisine id
+        $.ajax({
+            url: `https://developers.zomato.com/api/v2.1/cuisines?city_id=${cityId}`,
+            method: "GET",
+            headers: {
+                "user-key": "5b9c13f9e30c6d6bcd91ac54f9a8bf91"
+            }
+        }).then(function (response) {
+            console.log(response);
+            cuisineId = findCuisineId(response, userCuisine);
+            cuisineArr = makeCuisineArray(response);
+            populateDropdown(cuisineArr, $("#cuisine"));
+            //Returns results for city and cuisine search
+        })
     })
 })
 
@@ -64,39 +77,39 @@ $.ajax({
 
 
 
-$('#searchBtn2').on('click', function() {
-    
+$('#searchBtn2').on('click', function () {
+
     let queryURL = `https://developers.zomato.com/api/v2.1/search?entity_id=${cityId}&entity_type=city`;
-    if(userCategories !== "") {
+    if (userCategories !== "") {
         categotiesId = 1//getIdFromArr(categories, userCategories);
         queryURL += `&category=${categoriesId}`;
     }
-    if(userCuisine !== "") {
+    if (userCuisine !== "") {
         cuisineId = 1//getIdFromArr(cuisineArr, userCuisine);
         queryURL += `&cuisines=${cuisineId}`;
     }
-    if(establishment !== "") {
+    if (establishment !== "") {
         establishmentId = 1//getIdFromArr(establishmentArr, establishment);
         queryURL += `&establishment_type=${establishmentId}`;
     }
-    
-        $.ajax({
-            url: queryURL,
-            method: "GET",
-            headers: {
-                "user-key" : "5b9c13f9e30c6d6bcd91ac54f9a8bf91"
-            }
-        }).then(function(response) {
-            console.log(response);
-            for (let i = 0; i < 6; i++) {
-                
-                printInformation(response, i);
-            }
-        })
+
+    $.ajax({
+        url: queryURL,
+        method: "GET",
+        headers: {
+            "user-key": "5b9c13f9e30c6d6bcd91ac54f9a8bf91"
+        }
+    }).then(function (response) {
+        console.log(response);
+        for (let i = 0; i < 6; i++) {
+
+            printInformation(response, i);
+        }
+    })
 })
 
 function getIdFromArr(Arr, choice) {
-    for(let i = 0; i < Arr.length; i++) {
+    for (let i = 0; i < Arr.length; i++) {
         if (Arr[i].includes(choice)) {
             return Arr[i][1];
         }
@@ -105,19 +118,19 @@ function getIdFromArr(Arr, choice) {
 
 
 
-function makeEstablishmentArray (Obj) {
+function makeEstablishmentArray(Obj) {
     let retArr = [];
 
-    for (let i=0; i<Obj.establishments.length; i++) {
+    for (let i = 0; i < Obj.establishments.length; i++) {
         retArr.push([Obj.establishments[i].establishment.name, Obj.establishments[i].establishment.id]);
     }
     return retArr;
 }
 
-function makeCuisineArray (Obj) {
+function makeCuisineArray(Obj) {
     let retArr = [];
 
-    for (let i=0; i<Obj.cuisines.length; i++) {
+    for (let i = 0; i < Obj.cuisines.length; i++) {
         retArr.push([Obj.cuisines[i].cuisine.cuisine_name, Obj.cuisines[i].cuisine.cuisine_id]);
     }
     return retArr;
