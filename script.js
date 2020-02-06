@@ -64,19 +64,19 @@ $.ajax({
 
 
 
-$('#finalSearch').on('click', function() {
+$('#searchBtn2').on('click', function() {
     
     let queryURL = `https://developers.zomato.com/api/v2.1/search?entity_id=${cityId}&entity_type=city`;
     if(userCategories !== "") {
-        categotiesId = getIdFromArr(categories, userCategories);
+        categotiesId = 1//getIdFromArr(categories, userCategories);
         queryURL += `&category=${categoriesId}`;
     }
     if(userCuisine !== "") {
-        cuisineId = getIdFromArr(cuisineArr, userCuisine);
+        cuisineId = 1//getIdFromArr(cuisineArr, userCuisine);
         queryURL += `&cuisines=${cuisineId}`;
     }
     if(establishment !== "") {
-        establishmentId = getIdFromArr(establishmentArr, establishment);
+        establishmentId = 1//getIdFromArr(establishmentArr, establishment);
         queryURL += `&establishment_type=${establishmentId}`;
     }
     
@@ -87,8 +87,9 @@ $('#finalSearch').on('click', function() {
                 "user-key" : "5b9c13f9e30c6d6bcd91ac54f9a8bf91"
             }
         }).then(function(response) {
+            console.log(response);
             for (let i = 0; i < 6; i++) {
-                console.log(response);
+                
                 printInformation(response, i);
             }
         })
@@ -147,12 +148,22 @@ function printInformation(Obj, index) {
     let address = restaurant.location.address;
     let menuLink = restaurant.menu_url;
     let phoneNumber = restaurant.phone_numbers;
-    $('#list').append($(`
-        <p>Name: ${name}</p>
-        <p>Address: ${address}</p>
-        <p>Phone Number: ${phoneNumber}</p>
-        <a href="${menuLink}">Menu</a>
-        <hr>
+    $('#results').append($(`
+        <div class="col s12 m7">
+            
+            <div class="card horizontal">
+                <div class="card-image">
+                    <img src="${restaurant.thumb}">
+                </div>
+                <div class="card-stacked">
+                    <div class="card-content">
+                        <h3>${name}</h3>
+                        <p>${address}</p>
+                        <p>${phoneNumber}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     `))
 }
 
