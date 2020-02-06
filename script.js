@@ -98,13 +98,28 @@ $('#searchBtn2').on('click', function () {
         }
     }).then(function (response) {
         console.log(response);
-        for (let i = 0; i < 6; i++) {
+        let repitition = 6;
 
-            printInformation(response, i);
+        if(response.restaurants.length === 0) {
+
+            $("#results").append($(`<h4>No results for a ${userCuisine} ${userCategories} ${establishment} in ${city}</h4>`));
+
+        } else if (response.restaurants.length < 6) {
+            repitition = response.restaurants.length;
+            for (let i = 0; i < repitition; i++) {
+
+                printInformation(response, i);
+            }
+        } else {
+            for (let i = 0; i < repitition; i++) {
+
+                printInformation(response, i);
+            }
         }
+
+        
     })
 })
-
 
 $('#clearBtn').click(function(){
     clearResults();
@@ -113,7 +128,6 @@ $('#clearBtn').click(function(){
 function clearResults() {
     $("#results").empty();
 }
-
 
 function getIdFromArr(Arr, choice) {
     for (let i = 0; i < Arr.length; i++) {
@@ -168,7 +182,16 @@ function printInformation(Obj, index) {
     let address = restaurant.location.address;
     let menuLink = restaurant.menu_url;
     let phoneNumber = restaurant.phone_numbers;
-    $('#results').append($(`
+
+    let priceNumber = restaurant.price_range;
+    let priceSign = "";
+    for(let i = 0; i < priceNumber; i++) {
+        priceSign += '$';
+    }
+
+    let rating = restaurant.user_rating.aggregate_rating;
+
+    $('#results').prepend($(`
         <div class="col s12 m7">
             
             <div class="card horizontal">
@@ -178,6 +201,8 @@ function printInformation(Obj, index) {
                 <div class="card-stacked">
                     <div class="card-content">
                         <h3>${name}</h3>
+                        <p>Rating: ${rating}</p>
+                        <p>Price: ${priceSign}</p>
                         <p>${address}</p>
                         <p>${phoneNumber}</p>
                     </div>
