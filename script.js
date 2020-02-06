@@ -105,6 +105,16 @@ $('#searchBtn2').on('click', function () {
     })
 })
 
+
+$('#clearBtn').click(function(){
+    clearResults();
+})
+
+function clearResults() {
+    $("#results").empty();
+}
+
+
 function getIdFromArr(Arr, choice) {
     for (let i = 0; i < Arr.length; i++) {
         if (Arr[i].includes(choice)) {
