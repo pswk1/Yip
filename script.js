@@ -98,7 +98,11 @@ $('#searchBtn2').on('click', function () {
         }
     }).then(function (response) {
         console.log(response);
-        for (let i = 0; i < 6; i++) {
+        let repitition = 6;
+        if (response.restaurants.length < 6) {
+            repitition = response.restaurants.length;
+        }
+        for (let i = 0; i < repitition; i++) {
 
             printInformation(response, i);
         }
@@ -158,6 +162,15 @@ function printInformation(Obj, index) {
     let address = restaurant.location.address;
     let menuLink = restaurant.menu_url;
     let phoneNumber = restaurant.phone_numbers;
+
+    let priceNumber = restaurant.price_range;
+    let priceSign = "";
+    for(let i = 0; i < priceNumber; i++) {
+        priceSign += '$';
+    }
+
+    let rating = restaurant.user_rating.aggregate_rating;
+
     $('#results').append($(`
         <div class="col s12 m7">
             
@@ -168,6 +181,8 @@ function printInformation(Obj, index) {
                 <div class="card-stacked">
                     <div class="card-content">
                         <h3>${name}</h3>
+                        <p>Rating: ${rating}</p>
+                        <p>Price: ${priceSign}</p>
                         <p>${address}</p>
                         <p>${phoneNumber}</p>
                     </div>
