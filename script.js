@@ -59,7 +59,8 @@ $("#searchBtn1").click(function () {
 
 
 
-
+    let userCuisine = "";
+    
 
 $('#searchBtn2').on('click', function () {
     console.log("Hello");
@@ -68,7 +69,7 @@ $('#searchBtn2').on('click', function () {
     userCategories = $('#experienceId').val();
     console.log(userCategories);
 
-    let userCuisine = "";
+    userCuisine = "";
     let cuisineId = "";
     userCuisine = $('#cuisineId').val();
     console.log(userCuisine);
@@ -180,6 +181,19 @@ function populateDropdown(Arr, target) {
 
 function printInformation(Obj, index) {
     let restaurant = Obj.restaurants[index].restaurant;
+
+    console.log(restaurant.cuisines.split(',')[0]);
+    let restaurantCuisine = restaurant.cuisines.split(',')[0];
+    let image;
+    if (restaurant.thumb !== "") {
+        image = restaurant.thumb;
+
+    } else {
+        image = `assets/cuisine_food_img/${restaurantCuisine}.jpg`
+    }
+
+
+
     let name = restaurant.name;
     let address = restaurant.location.address;
     let menuLink = restaurant.menu_url;
@@ -201,7 +215,7 @@ function printInformation(Obj, index) {
 
             <div class="card horizontal">
                 <div class="card-image">
-                    <img src="${restaurant.thumb}">
+                    <img style="width: 200px" src="${image}">
                 </div>
                 <div class="card-stacked">
                     <div class="card-content">
