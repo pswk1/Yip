@@ -99,13 +99,25 @@ $('#searchBtn2').on('click', function () {
     }).then(function (response) {
         console.log(response);
         let repitition = 6;
-        if (response.restaurants.length < 6) {
-            repitition = response.restaurants.length;
-        }
-        for (let i = 0; i < repitition; i++) {
 
-            printInformation(response, i);
+        if(response.restaurants.length === 0) {
+
+            $("#results").append($(`<h4>No results for a ${userCuisine} ${userCategories} ${establishment} in ${city}</h4>`));
+
+        } else if (response.restaurants.length < 6) {
+            repitition = response.restaurants.length;
+            for (let i = 0; i < repitition; i++) {
+
+                printInformation(response, i);
+            }
+        } else {
+            for (let i = 0; i < repitition; i++) {
+
+                printInformation(response, i);
+            }
         }
+
+        
     })
 })
 
@@ -160,7 +172,7 @@ function populateDropdown(Arr, target) {
 
     for (let i = 0; i < Arr.length; i++) {
         currentOption = $(`<option value="${Arr[i][0]}">`)
-        target.prepend(currentOption);
+        target.append(currentOption);
     }
 }
 
@@ -179,7 +191,7 @@ function printInformation(Obj, index) {
 
     let rating = restaurant.user_rating.aggregate_rating;
 
-    $('#results').append($(`
+    $('#results').prepend($(`
         <div class="col s12 m7">
             
             <div class="card horizontal">
