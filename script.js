@@ -1,13 +1,14 @@
 let categories = [["Delivery", 1], ["Dine-out", 2], ["Nightlife", 3], ["Carching-up", 4], ["Takeaway", 5], ["Cafes", 6], ["Daily Menus", 7], ["Breakfast", 8], ["Lunch", 9], ["Dinner", 10], ["Pubs & Bars", 11], ["Pocket Friendly Delivery", 13], ["Clubs & Lounges", 14]];
 
 let city = "";
+let state = "";
 let cityId = "";
 let cuisineArr = [];
 let establishmentArr = [];
 
 $("#searchBtn1").click(function () {
 
-
+    state = "";
     cuisineArr = [];
     establishmentArr = [];
 
@@ -25,6 +26,7 @@ $("#searchBtn1").click(function () {
         console.log(response);
         $("#parameters").removeClass("hide");
         cityId = response.location_suggestions[0].id;
+        state = response.location_suggestions[0].state_code;
         populateDropdown(categories, $("#category"));
 
         $.ajax({
@@ -206,7 +208,7 @@ function printInformation(Obj, index) {
                         <h3>${name}</h3>
                         <p>Rating: ${rating}</p>
                         <p>Price: ${priceSign}</p>
-                        <p>${address}</p>
+                        <p>${address} ${state}</p>
                         <p>${phoneNumber}</p>
                     </div>
                 </div>
