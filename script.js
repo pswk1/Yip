@@ -14,52 +14,55 @@ $("#searchBtn1").click(function () {
 
 
     city = $("#searchCityId").val();
-
-    $.ajax({
-        url: `https://developers.zomato.com/api/v2.1/cities?q=${city}`,
-        method: "GET",
-        headers: {
-            "user-key": "5b9c13f9e30c6d6bcd91ac54f9a8bf91"
-        }
-    }).then(function (response) {
-        //Stores City id
-        console.log(response);
-        $("#parameters").removeClass("hide");
-        cityId = response.location_suggestions[0].id;
-        state = response.location_suggestions[0].state_code;
-        populateDropdown(categories, $("#category"));
-
+    if (city !== "") {
         $.ajax({
-            url: `https://developers.zomato.com/api/v2.1/establishments?city_id=${cityId}`,
+            url: `https://developers.zomato.com/api/v2.1/cities?q=${city}`,
             method: "GET",
             headers: {
                 "user-key": "5b9c13f9e30c6d6bcd91ac54f9a8bf91"
             }
         }).then(function (response) {
+            //Stores City id
             console.log(response);
-            establishmentArr = makeEstablishmentArray(response);
-            populateDropdown(establishmentArr, $("#establishment"));
+            $("#parameters").removeClass("hide");
+            cityId = response.location_suggestions[0].id;
+            state = response.location_suggestions[0].state_code;
+            populateDropdown(categories, $("#category"));
+    
+            $.ajax({
+                url: `https://developers.zomato.com/api/v2.1/establishments?city_id=${cityId}`,
+                method: "GET",
+                headers: {
+                    "user-key": "5b9c13f9e30c6d6bcd91ac54f9a8bf91"
+                }
+            }).then(function (response) {
+                console.log(response);
+                establishmentArr = makeEstablishmentArray(response);
+                populateDropdown(establishmentArr, $("#establishment"));
+            })
+            //This one funcions to find the cuisine id
+            $.ajax({
+                url: `https://developers.zomato.com/api/v2.1/cuisines?city_id=${cityId}`,
+                method: "GET",
+                headers: {
+                    "user-key": "5b9c13f9e30c6d6bcd91ac54f9a8bf91"
+                }
+            }).then(function (response) {
+                console.log(response);
+                cuisineArr = makeCuisineArray(response);
+                populateDropdown(cuisineArr, $("#cuisine"));
+                //Returns results for city and cuisine search
+            })
         })
-        //This one funcions to find the cuisine id
-        $.ajax({
-            url: `https://developers.zomato.com/api/v2.1/cuisines?city_id=${cityId}`,
-            method: "GET",
-            headers: {
-                "user-key": "5b9c13f9e30c6d6bcd91ac54f9a8bf91"
-            }
-        }).then(function (response) {
-            console.log(response);
-            cuisineArr = makeCuisineArray(response);
-            populateDropdown(cuisineArr, $("#cuisine"));
-            //Returns results for city and cuisine search
-        })
-    })
+    }
+    
 })
 
 
 
 
-
+    let userCuisine = "";
+    
 
 $('#searchBtn2').on('click', function () {
     console.log("Hello");
@@ -68,7 +71,7 @@ $('#searchBtn2').on('click', function () {
     userCategories = $('#experienceId').val();
     console.log(userCategories);
 
-    let userCuisine = "";
+    userCuisine = "";
     let cuisineId = "";
     userCuisine = $('#cuisineId').val();
     console.log(userCuisine);
@@ -124,11 +127,12 @@ $('#searchBtn2').on('click', function () {
 })
 
 $('#clearBtn').click(function(){
-    clearResults();
+    clearSearchAndResults();
 })
 
-function clearResults() {
+function clearSearchAndResults() {
     $("#results").empty();
+    $("#parameters").empty();
 }
 
 function getIdFromArr(Arr, choice) {
@@ -180,6 +184,19 @@ function populateDropdown(Arr, target) {
 
 function printInformation(Obj, index) {
     let restaurant = Obj.restaurants[index].restaurant;
+
+    console.log(restaurant.cuisines.split(',')[0]);
+    let restaurantCuisine = restaurant.cuisines.split(',')[0];
+    let image;
+    if (restaurant.thumb !== "") {
+        image = restaurant.thumb;
+
+    } else {
+        image = `assets/cuisine_food_img/${restaurantCuisine}.jpg`
+    }
+
+
+
     let name = restaurant.name;
     let address = restaurant.location.address;
     let menuLink = restaurant.menu_url;
@@ -201,7 +218,7 @@ function printInformation(Obj, index) {
 
             <div class="card horizontal">
                 <div class="card-image">
-                    <img src="${restaurant.thumb}">
+                    <img style="width: 200px" src="${image}">
                 </div>
                 <div class="card-stacked">
                     <div class="card-content">
