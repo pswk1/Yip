@@ -15,7 +15,7 @@ let categories = [["Delivery", 1], ["Dine-out", 2], ["Nightlife", 3], ["Carching
 
 let userCategories = "";
 let categoriesId = "";
-let city = "Los Angeles";
+let city = "Turlock";
 let cityId = "";
 let userCuisine = "Italian";
 let cuisineId = "";
