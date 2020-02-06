@@ -125,11 +125,12 @@ $('#searchBtn2').on('click', function () {
 })
 
 $('#clearBtn').click(function(){
-    clearResults();
+    clearSearchAndResults();
 })
 
-function clearResults() {
+function clearSearchAndResults() {
     $("#results").empty();
+    $("#parameters").empty();
 }
 
 function getIdFromArr(Arr, choice) {
