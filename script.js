@@ -1,33 +1,16 @@
-//5b9c13f9e30c6d6bcd91ac54f9a8bf91
 let categories = [["Delivery", 1], ["Dine-out", 2], ["Nightlife", 3], ["Carching-up", 4], ["Takeaway", 5], ["Cafes", 6], ["Daily Menus", 7], ["Breakfast", 8], ["Lunch", 9], ["Dinner", 10], ["Pubs & Bars", 11], ["Pocket Friendly Delivery", 13], ["Clubs & Lounges", 14]];
-// let city = "Turlock";
-// let userCuisine = "Burger";
-// let cityId;
-// let cuisineCheck = false;
-// let establishmentCheck = false;
 
-
-
-
-
-//Initial query, gets id of city from Zomato
-// $('#someButton').on("click", function() {
-
-let userCategories = "";
-let categoriesId = "";
-let city = "Turlock";
+let city = "";
 let cityId = "";
-let userCuisine = "Italian";
-let cuisineId = "";
-let establishment = "";
-let establishmentId = "";
-
 let cuisineArr = [];
 let establishmentArr = [];
 
-
-
 $("#searchBtn1").click(function () {
+
+
+    cuisineArr = [];
+    establishmentArr = [];
+
 
     city = $("#searchCityId").val();
 
@@ -64,7 +47,6 @@ $("#searchBtn1").click(function () {
             }
         }).then(function (response) {
             console.log(response);
-            cuisineId = findCuisineId(response, userCuisine);
             cuisineArr = makeCuisineArray(response);
             populateDropdown(cuisineArr, $("#cuisine"));
             //Returns results for city and cuisine search
@@ -72,24 +54,39 @@ $("#searchBtn1").click(function () {
     })
 })
 
-// })
+
 
 
 
 
 $('#searchBtn2').on('click', function () {
+    console.log("Hello");
+    let userCategories = "";
+    let categoriesId = "";
+    userCategories = $('#experienceId').val();
+    console.log(userCategories);
+
+    let userCuisine = "";
+    let cuisineId = "";
+    userCuisine = $('#cuisineId').val();
+    console.log(userCuisine);
+
+    let establishment = "";
+    let establishmentId = "";
+    establishment = $('#establishmentId').val();
+    console.log(establishment);
 
     let queryURL = `https://developers.zomato.com/api/v2.1/search?entity_id=${cityId}&entity_type=city`;
     if (userCategories !== "") {
-        categotiesId = 1//getIdFromArr(categories, userCategories);
+        categotiesId = getIdFromArr(categories, userCategories);
         queryURL += `&category=${categoriesId}`;
     }
     if (userCuisine !== "") {
-        cuisineId = 1//getIdFromArr(cuisineArr, userCuisine);
+        cuisineId = getIdFromArr(cuisineArr, userCuisine);
         queryURL += `&cuisines=${cuisineId}`;
     }
     if (establishment !== "") {
-        establishmentId = 1//getIdFromArr(establishmentArr, establishment);
+        establishmentId = getIdFromArr(establishmentArr, establishment);
         queryURL += `&establishment_type=${establishmentId}`;
     }
 
