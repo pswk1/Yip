@@ -123,9 +123,8 @@ $('#results').on('click', function(event) {
         let lat = event.target.getAttribute('lat');
         let lon = event.target.getAttribute('lon');
         let name = event.target.getAttribute('name');
-        console.log(lat);
-        console.log(lon);
-        console.log(name);
+        
+        //insert script here for linking google maps API
     }
 })
 
