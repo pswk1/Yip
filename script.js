@@ -132,7 +132,9 @@ $('#clearBtn').click(function(){
 
 function clearSearchAndResults() {
     $("#results").empty();
-    $("#parameters").empty();
+    $("#cuisineId").val("");
+    $("#establishmentId").val("");
+    $("#experienceId").val("");
 }
 
 function getIdFromArr(Arr, choice) {
