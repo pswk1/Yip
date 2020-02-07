@@ -6,77 +6,72 @@ let cityId = "";
 let cuisineArr = [];
 let establishmentArr = [];
 
+//Searches Zomato for the requested city and gets the city id. This id is then used to get the possible
+//establishments and cuisines for the given city
 $("#searchBtn1").click(function () {
 
     state = "";
     cuisineArr = [];
     establishmentArr = [];
-
-
     city = $("#searchCityId").val();
 
-    $.ajax({
-        url: `https://developers.zomato.com/api/v2.1/cities?q=${city}`,
-        method: "GET",
-        headers: {
-            "user-key": "5b9c13f9e30c6d6bcd91ac54f9a8bf91"
-        }
-    }).then(function (response) {
-        //Stores City id
-        console.log(response);
-        $("#parameters").removeClass("hide");
-        cityId = response.location_suggestions[0].id;
-        state = response.location_suggestions[0].state_code;
-        populateDropdown(categories, $("#category"));
-
+    if (city !== "") {
         $.ajax({
-            url: `https://developers.zomato.com/api/v2.1/establishments?city_id=${cityId}`,
+            url: `https://developers.zomato.com/api/v2.1/cities?q=${city}`,
             method: "GET",
             headers: {
                 "user-key": "5b9c13f9e30c6d6bcd91ac54f9a8bf91"
             }
         }).then(function (response) {
-            console.log(response);
-            establishmentArr = makeEstablishmentArray(response);
-            populateDropdown(establishmentArr, $("#establishment"));
+            
+            //Shows the user the input options for cuisine, establishment, and experience
+            $("#parameters").removeClass("hide");
+            cityId = response.location_suggestions[0].id;
+            state = response.location_suggestions[0].state_code;
+            populateDropdown(categories, $("#category"));
+    
+            $.ajax({
+                url: `https://developers.zomato.com/api/v2.1/establishments?city_id=${cityId}`,
+                method: "GET",
+                headers: {
+                    "user-key": "5b9c13f9e30c6d6bcd91ac54f9a8bf91"
+                }
+            }).then(function (response) {
+                establishmentArr = makeEstablishmentArray(response);
+                populateDropdown(establishmentArr, $("#establishment"));
+            })
+            //This one funcions to find the cuisine id
+            $.ajax({
+                url: `https://developers.zomato.com/api/v2.1/cuisines?city_id=${cityId}`,
+                method: "GET",
+                headers: {
+                    "user-key": "5b9c13f9e30c6d6bcd91ac54f9a8bf91"
+                }
+            }).then(function (response) {
+                cuisineArr = makeCuisineArray(response);
+                populateDropdown(cuisineArr, $("#cuisine"));
+                //Returns results for city and cuisine search
+            })
         })
-        //This one funcions to find the cuisine id
-        $.ajax({
-            url: `https://developers.zomato.com/api/v2.1/cuisines?city_id=${cityId}`,
-            method: "GET",
-            headers: {
-                "user-key": "5b9c13f9e30c6d6bcd91ac54f9a8bf91"
-            }
-        }).then(function (response) {
-            console.log(response);
-            cuisineArr = makeCuisineArray(response);
-            populateDropdown(cuisineArr, $("#cuisine"));
-            //Returns results for city and cuisine search
-        })
-    })
+    }
+    
 })
 
-
-
-
-
+let userCuisine = "";
+    
 
 $('#searchBtn2').on('click', function () {
-    console.log("Hello");
     let userCategories = "";
     let categoriesId = "";
     userCategories = $('#experienceId').val();
-    console.log(userCategories);
 
-    let userCuisine = "";
+    userCuisine = "";
     let cuisineId = "";
     userCuisine = $('#cuisineId').val();
-    console.log(userCuisine);
 
     let establishment = "";
     let establishmentId = "";
     establishment = $('#establishmentId').val();
-    console.log(establishment);
 
     let queryURL = `https://developers.zomato.com/api/v2.1/search?entity_id=${cityId}&entity_type=city`;
     if (userCategories !== "") {
@@ -99,9 +94,8 @@ $('#searchBtn2').on('click', function () {
             "user-key": "5b9c13f9e30c6d6bcd91ac54f9a8bf91"
         }
     }).then(function (response) {
-        console.log(response);
         let repitition = 6;
-
+        console.log(response);
         if(response.restaurants.length === 0) {
 
             $("#results").append($(`<h4>No results for a ${userCuisine} ${userCategories} ${establishment} in ${city}</h4>`));
@@ -118,17 +112,18 @@ $('#searchBtn2').on('click', function () {
                 printInformation(response, i);
             }
         }
-
-
     })
 })
 
 $('#clearBtn').click(function(){
-    clearResults();
+    clearSearchAndResults();
 })
 
-function clearResults() {
+function clearSearchAndResults() {
     $("#results").empty();
+    $("#cuisineId").val("");
+    $("#establishmentId").val("");
+    $("#experienceId").val("");
 }
 
 function getIdFromArr(Arr, choice) {
@@ -138,8 +133,6 @@ function getIdFromArr(Arr, choice) {
         }
     }
 }
-
-
 
 function makeEstablishmentArray(Obj) {
     let retArr = [];
@@ -180,12 +173,24 @@ function populateDropdown(Arr, target) {
 
 function printInformation(Obj, index) {
     let restaurant = Obj.restaurants[index].restaurant;
+
+    let restaurantCuisine = restaurant.cuisines.split(',')[0];
+    let image;
+    if (restaurant.thumb !== "") {
+        image = restaurant.thumb;
+
+    } else {
+        image = `assets/cuisine_food_img/${restaurantCuisine}.jpg`
+    }
+
     let name = restaurant.name;
     let address = restaurant.location.address;
+    let address1 = address.substr(0, address.length-6);
+    let zipcode = address.substr(address.length-5);
     let menuLink = restaurant.menu_url;
     let phoneNumber = restaurant.phone_numbers;
-
     let priceNumber = restaurant.price_range;
+    let url = restaurant.url;
     let priceSign = "";
     for(let i = 0; i < priceNumber; i++) {
         priceSign += '$';
@@ -198,21 +203,22 @@ function printInformation(Obj, index) {
 
     $('#results').prepend($(`
         <div class="col s12 m7">
-
+        <a href="${url}">
             <div class="card horizontal">
                 <div class="card-image">
-                    <img src="${restaurant.thumb}">
+                    <img style="width: 200px" src="${image}">
                 </div>
                 <div class="card-stacked">
-                    <div class="card-content">
+                    <div class="card-content" style="color: black">
                         <h3>${name}</h3>
                         <p>Rating: ${rating}</p>
                         <p>Price: ${priceSign}</p>
-                        <p>${address} ${state}</p>
+                        <p>${address1}, ${state} ${zipcode}</p>
                         <p>${phoneNumber}</p>
                     </div>
                 </div>
             </div>
+        </a>
         </div>
     `))
 }
