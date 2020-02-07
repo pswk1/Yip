@@ -185,6 +185,8 @@ function printInformation(Obj, index) {
 
     let name = restaurant.name;
     let address = restaurant.location.address;
+    let address1 = address.substr(0, address.length-6);
+    let zipcode = address.substr(address.length-5);
     let menuLink = restaurant.menu_url;
     let phoneNumber = restaurant.phone_numbers;
     let priceNumber = restaurant.price_range;
@@ -211,7 +213,7 @@ function printInformation(Obj, index) {
                         <h3>${name}</h3>
                         <p>Rating: ${rating}</p>
                         <p>Price: ${priceSign}</p>
-                        <p>${address} ${state}</p>
+                        <p>${address1}, ${state} ${zipcode}</p>
                         <p>${phoneNumber}</p>
                     </div>
                 </div>
