@@ -6,14 +6,15 @@ let cityId = "";
 let cuisineArr = [];
 let establishmentArr = [];
 
+//Searches Zomato for the requested city and gets the city id. This id is then used to get the possible
+//establishments and cuisines for the given city
 $("#searchBtn1").click(function () {
 
     state = "";
     cuisineArr = [];
     establishmentArr = [];
-
-
     city = $("#searchCityId").val();
+    
     if (city !== "") {
         $.ajax({
             url: `https://developers.zomato.com/api/v2.1/cities?q=${city}`,
@@ -22,8 +23,8 @@ $("#searchBtn1").click(function () {
                 "user-key": "5b9c13f9e30c6d6bcd91ac54f9a8bf91"
             }
         }).then(function (response) {
-            //Stores City id
-            console.log(response);
+            
+            //Shows the user the input options for cuisine, establishment, and experience
             $("#parameters").removeClass("hide");
             cityId = response.location_suggestions[0].id;
             state = response.location_suggestions[0].state_code;
@@ -36,7 +37,6 @@ $("#searchBtn1").click(function () {
                     "user-key": "5b9c13f9e30c6d6bcd91ac54f9a8bf91"
                 }
             }).then(function (response) {
-                console.log(response);
                 establishmentArr = makeEstablishmentArray(response);
                 populateDropdown(establishmentArr, $("#establishment"));
             })
@@ -48,7 +48,6 @@ $("#searchBtn1").click(function () {
                     "user-key": "5b9c13f9e30c6d6bcd91ac54f9a8bf91"
                 }
             }).then(function (response) {
-                console.log(response);
                 cuisineArr = makeCuisineArray(response);
                 populateDropdown(cuisineArr, $("#cuisine"));
                 //Returns results for city and cuisine search
@@ -58,28 +57,21 @@ $("#searchBtn1").click(function () {
     
 })
 
-
-
-
-    let userCuisine = "";
+let userCuisine = "";
     
 
 $('#searchBtn2').on('click', function () {
-    console.log("Hello");
     let userCategories = "";
     let categoriesId = "";
     userCategories = $('#experienceId').val();
-    console.log(userCategories);
 
     userCuisine = "";
     let cuisineId = "";
     userCuisine = $('#cuisineId').val();
-    console.log(userCuisine);
 
     let establishment = "";
     let establishmentId = "";
     establishment = $('#establishmentId').val();
-    console.log(establishment);
 
     let queryURL = `https://developers.zomato.com/api/v2.1/search?entity_id=${cityId}&entity_type=city`;
     if (userCategories !== "") {
@@ -102,7 +94,6 @@ $('#searchBtn2').on('click', function () {
             "user-key": "5b9c13f9e30c6d6bcd91ac54f9a8bf91"
         }
     }).then(function (response) {
-        console.log(response);
         let repitition = 6;
 
         if(response.restaurants.length === 0) {
@@ -121,8 +112,6 @@ $('#searchBtn2').on('click', function () {
                 printInformation(response, i);
             }
         }
-
-
     })
 })
 
@@ -144,8 +133,6 @@ function getIdFromArr(Arr, choice) {
         }
     }
 }
-
-
 
 function makeEstablishmentArray(Obj) {
     let retArr = [];
@@ -187,7 +174,6 @@ function populateDropdown(Arr, target) {
 function printInformation(Obj, index) {
     let restaurant = Obj.restaurants[index].restaurant;
 
-    console.log(restaurant.cuisines.split(',')[0]);
     let restaurantCuisine = restaurant.cuisines.split(',')[0];
     let image;
     if (restaurant.thumb !== "") {
@@ -197,13 +183,10 @@ function printInformation(Obj, index) {
         image = `assets/cuisine_food_img/${restaurantCuisine}.jpg`
     }
 
-
-
     let name = restaurant.name;
     let address = restaurant.location.address;
     let menuLink = restaurant.menu_url;
     let phoneNumber = restaurant.phone_numbers;
-
     let priceNumber = restaurant.price_range;
     let priceSign = "";
     for(let i = 0; i < priceNumber; i++) {
