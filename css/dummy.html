@@ -37,6 +37,7 @@
     <div class="parallax"><img src="assets/food-1.jpg" alt="Unsplashed background img 1"></div>
   </div>
   ​
+  ​
   <div class="container">
     <div class="section">
       <div class="input-group input-group-sm mb-3">
@@ -44,29 +45,31 @@
           <span class="input-group-text" id="inputGroup-sizing-sm">Search City</span>
         </div>
         <input id="searchCityId" type="text" class="form-control" aria-label="Sizing example input"
-          aria-describedby="inputGroup-sizing-sm" id="searchText" placeholder="Los Angeles, CA">
+          aria-describedby="inputGroup-sizing-sm" id="searchText">
         <button type="button" class="btn btn-default btn-sm" id="searchBtn1">
           Search
         </button>
       </div>
       <div class="hide" id="parameters">
-        Cuisine<input id="cuisineId" list="cuisine" placeholder="Italian (Optional)">
+        Cuisine<input id="cuisineId" list="cuisine">
         <datalist id="cuisine">
         </datalist>
-        Establishment<input id="establishmentId" list="establishment" placeholder="Pizzeria (Optional)">
+        Establishment<input id="establishmentId" list="establishment">
         <datalist id="establishment">
         </datalist>
-        Experience<input id="experienceId" list="category" placeholder="Lunch (Optional)">
+        Experience<input id="experienceId" list="category">
         <datalist id="category">
         </datalist>
-        <!-- Submit, Clear Resuls, Clear Search buttons -->
         <div>
           <button type="button" class="btn btn-default btn-sm" id="searchBtn2">
             Search
           </button>
+        <!-- <br> <br> -->
           <button type="button" class="btn btn-default btn-sm" id="clearBtn">
-            Clear
+            Clear Results
           </button>
+
+
         </div>
       </div>
 
@@ -170,6 +173,7 @@
       </div>
     </div>
   </footer>
+  
   ​
   <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
