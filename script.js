@@ -14,7 +14,7 @@ $("#searchBtn1").click(function () {
     cuisineArr = [];
     establishmentArr = [];
     city = $("#searchCityId").val();
-    
+
     if (city !== "") {
         $.ajax({
             url: `https://developers.zomato.com/api/v2.1/cities?q=${city}`,
@@ -95,7 +95,7 @@ $('#searchBtn2').on('click', function () {
         }
     }).then(function (response) {
         let repitition = 6;
-
+        console.log(response);
         if(response.restaurants.length === 0) {
 
             $("#results").append($(`<h4>No results for a ${userCuisine} ${userCategories} ${establishment} in ${city}</h4>`));
@@ -188,6 +188,7 @@ function printInformation(Obj, index) {
     let menuLink = restaurant.menu_url;
     let phoneNumber = restaurant.phone_numbers;
     let priceNumber = restaurant.price_range;
+    let url = restaurant.url;
     let priceSign = "";
     for(let i = 0; i < priceNumber; i++) {
         priceSign += '$';
@@ -200,13 +201,13 @@ function printInformation(Obj, index) {
 
     $('#results').prepend($(`
         <div class="col s12 m7">
-
+        <a href="${url}">
             <div class="card horizontal">
                 <div class="card-image">
                     <img style="width: 200px" src="${image}">
                 </div>
                 <div class="card-stacked">
-                    <div class="card-content">
+                    <div class="card-content" style="color: black">
                         <h3>${name}</h3>
                         <p>Rating: ${rating}</p>
                         <p>Price: ${priceSign}</p>
@@ -215,6 +216,7 @@ function printInformation(Obj, index) {
                     </div>
                 </div>
             </div>
+        </a>
         </div>
     `))
 }
