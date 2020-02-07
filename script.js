@@ -23,7 +23,6 @@ $("#searchBtn1").click(function () {
                 "user-key": "5b9c13f9e30c6d6bcd91ac54f9a8bf91"
             }
         }).then(function (response) {
-            
             //Shows the user the input options for cuisine, establishment, and experience
             $("#parameters").removeClass("hide");
             cityId = response.location_suggestions[0].id;
@@ -119,6 +118,17 @@ $('#clearBtn').click(function(){
     clearSearchAndResults();
 })
 
+$('#results').on('click', function(event) {
+    if (event.target.matches('h6')) {
+        let lat = event.target.getAttribute('lat');
+        let lon = event.target.getAttribute('lon');
+        let name = event.target.getAttribute('name');
+        console.log(lat);
+        console.log(lon);
+        console.log(name);
+    }
+})
+
 function clearSearchAndResults() {
     $("#results").empty();
     $("#cuisineId").val("");
@@ -191,6 +201,8 @@ function printInformation(Obj, index) {
     let phoneNumber = restaurant.phone_numbers;
     let priceNumber = restaurant.price_range;
     let url = restaurant.url;
+    let lat = restaurant.location.latitude;
+    let lon = restaurant.location.longitude;
     let priceSign = "";
     for(let i = 0; i < priceNumber; i++) {
         priceSign += '$';
@@ -202,23 +214,23 @@ function printInformation(Obj, index) {
     }
 
     $('#results').prepend($(`
-        <div class="col s12 m7">
-        <a href="${url}">
-            <div class="card horizontal">
-                <div class="card-image">
+        
+        <section class="card horizontal">
+            <div class="card-image">
+                <a href="${url}">
                     <img style="width: 200px" src="${image}">
-                </div>
-                <div class="card-stacked">
-                    <div class="card-content" style="color: black">
-                        <h3>${name}</h3>
-                        <p>Rating: ${rating}</p>
-                        <p>Price: ${priceSign}</p>
-                        <p>${address1}, ${state} ${zipcode}</p>
-                        <p>${phoneNumber}</p>
-                    </div>
+                </a>
+            </div>
+            <div class="card-stacked">
+                <div class="card-content" style="color: black">
+                    <h3>${name}</h3>
+                    <p>Rating: ${rating}</p>
+                    <p>Price: ${priceSign}</p>
+                    <h6 lat="${lat}" lon="${lon}" name="${name}">${address1}, ${state} ${zipcode}</h6>
+                    <p>${phoneNumber}</p>
                 </div>
             </div>
-        </a>
-        </div>
+        </section>
+       
     `))
 }
