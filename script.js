@@ -118,15 +118,15 @@ $('#clearBtn').click(function(){
     clearSearchAndResults();
 })
 
-$('#results').on('click', function(event) {
-    if (event.target.matches('h6')) {
-        let lat = event.target.getAttribute('lat');
-        let lon = event.target.getAttribute('lon');
-        let name = event.target.getAttribute('name');
+// $('#results').on('click', function(event) {
+//     if (event.target.matches('h6')) {
+//         let lat = event.target.getAttribute('lat');
+//         let lon = event.target.getAttribute('lon');
+//         let name = event.target.getAttribute('name');
         
-        //insert script here for linking google maps API
-    }
-})
+//         //insert script here for linking google maps API
+//     }
+// })
 
 function clearSearchAndResults() {
     $("#results").empty();
@@ -198,8 +198,10 @@ function printInformation(Obj, index) {
     let zipcode = address.substr(address.length-5);
     let menuLink = restaurant.menu_url;
     let phoneNumber = restaurant.phone_numbers;
+    let dialNumber = parseInt(phoneNumber.replace(/[^0-9]/g,''), 10);
     let priceNumber = restaurant.price_range;
     let url = restaurant.url;
+    
     let lat = restaurant.location.latitude;
     let lon = restaurant.location.longitude;
     let priceSign = "";
@@ -226,7 +228,7 @@ function printInformation(Obj, index) {
                     <p>Rating: ${rating}</p>
                     <p>Price: ${priceSign}</p>
                     <h6 lat="${lat}" lon="${lon}" name="${name}">${address1}, ${state} ${zipcode}</h6>
-                    <p>${phoneNumber}</p>
+                    <p><a href=tel:${dialNumber}>${phoneNumber}<a></p>
                 </div>
             </div>
         </section>
