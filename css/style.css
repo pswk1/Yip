@@ -7,7 +7,23 @@
  * This is Brett's EOD Wednesday css file 2/5/2020
  */
 
+#mapModal {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
 
+#googleMap {
+  position: fixed !important;
+  top: 15%;
+  left: 10%;
+  width: 80%;
+  height: 70%;
+  z-index: 5;
+  
+}
 
 nav ul a,
 nav .brand-logo {
