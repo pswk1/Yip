@@ -1,4 +1,4 @@
-let categories = [["Delivery", 1], ["Dine-out", 2], ["Nightlife", 3], ["Carching-up", 4], ["Takeaway", 5], ["Cafes", 6], ["Daily Menus", 7], ["Breakfast", 8], ["Lunch", 9], ["Dinner", 10], ["Pubs & Bars", 11], ["Pocket Friendly Delivery", 13], ["Clubs & Lounges", 14]];
+let categories = [["Delivery", 1], ["Dine-out", 2], ["Nightlife", 3], ["Catching-up", 4], ["Takeaway", 5], ["Cafes", 6], ["Daily Menus", 7], ["Breakfast", 8], ["Lunch", 9], ["Dinner", 10], ["Pubs & Bars", 11], ["Pocket Friendly Delivery", 13], ["Clubs & Lounges", 14]];
 
 let city = "";
 let state = "";
@@ -25,6 +25,7 @@ $("#searchBtn1").click(function () {
         }).then(function (response) {
             //Shows the user the input options for cuisine, establishment, and experience
             $("#parameters").removeClass("hide");
+            console.log(response);
             cityId = response.location_suggestions[0].id;
             state = response.location_suggestions[0].state_code;
             populateDropdown(categories, $("#category"));
@@ -36,6 +37,7 @@ $("#searchBtn1").click(function () {
                     "user-key": "5b9c13f9e30c6d6bcd91ac54f9a8bf91"
                 }
             }).then(function (response) {
+                console.log(response);
                 establishmentArr = makeEstablishmentArray(response);
                 populateDropdown(establishmentArr, $("#establishment"));
             })
@@ -47,6 +49,7 @@ $("#searchBtn1").click(function () {
                     "user-key": "5b9c13f9e30c6d6bcd91ac54f9a8bf91"
                 }
             }).then(function (response) {
+                console.log(response);
                 cuisineArr = makeCuisineArray(response);
                 populateDropdown(cuisineArr, $("#cuisine"));
                 //Returns results for city and cuisine search
@@ -74,7 +77,7 @@ $('#searchBtn2').on('click', function () {
 
     let queryURL = `https://developers.zomato.com/api/v2.1/search?entity_id=${cityId}&entity_type=city`;
     if (userCategories !== "") {
-        categotiesId = getIdFromArr(categories, userCategories);
+        categoriesId = getIdFromArr(categories, userCategories);
         queryURL += `&category=${categoriesId}`;
     }
     if (userCuisine !== "") {
@@ -117,16 +120,6 @@ $('#searchBtn2').on('click', function () {
 $('#clearBtn').click(function(){
     clearSearchAndResults();
 })
-
-// $('#results').on('click', function(event) {
-//     if (event.target.matches('h6')) {
-//         let lat = event.target.getAttribute('lat');
-//         let lon = event.target.getAttribute('lon');
-//         let name = event.target.getAttribute('name');
-        
-//         //insert script here for linking google maps API
-//     }
-// })
 
 function clearSearchAndResults() {
     $("#results").empty();
