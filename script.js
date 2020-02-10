@@ -255,7 +255,7 @@ function printInformation(Obj, index) {
                     <h3>${name}</h3>
                     <p>Rating: ${rating}</p>
                     <p>Price: ${priceSign}</p>
-                    <h6 lat="${lat}" lon="${lon}" name="${name}">${address1}, ${state} ${zipcode}</h6>
+                    <h6 lat="${lat}" lon="${lon}" name="${name}" class="streetAddress">${address1}, ${state} ${zipcode}</h6>
                     <p><a href=tel:${dialNumber}>${phoneNumber}<a></p>
                 </div>
             </div>
