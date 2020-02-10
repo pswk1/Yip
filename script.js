@@ -211,7 +211,8 @@ function printInformation(Obj, index) {
         image = restaurant.thumb;
 
     } else {
-        image = `assets/cuisine_food_img/${restaurantCuisine}.jpg`
+        image = `assets/cuisine_food_img/${restaurantCuisine}.jpg`;
+        console.log(image);
     }
 
     //These store the value of all the information that we chose to display
