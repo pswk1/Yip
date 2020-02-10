@@ -91,7 +91,7 @@
         <h2 class="center brown-text"><i class="material-icons">flash_on</i></h2>
         <h5 class="center">Say Goodbye To Indecision</h5>
         ​
-        <p class="light">Yip takes all the hassle out of the decision making process when it comes to 
+        <p class="light">Yip takes all the hassle out of the decision making process when it comes to
           finding the perfect restaurant to dine in according to your specifications. Whatever the occasion or mood,
           Yip will find the perfect place for you!
         </p>
@@ -104,7 +104,7 @@
         <h5 class="center">Be As Specific As You'd Like</h5>
         ​
         <p class="light"> Our search parameters allow you to specify your search according to cuisine type, establishment type,
-          and experience! Be as specific or broad with your search as you'd like to find the perfect place for your 
+          and experience! Be as specific or broad with your search as you'd like to find the perfect place for your
           mood and/or occasion.
         </p>
       </div>
@@ -115,7 +115,7 @@
         <h2 class="center brown-text"><i class="material-icons">settings</i></h2>
         <h5 class="center">We Value Your Time</h5>
         ​
-        <p class="light"> Here at Yip, we understand that time is the most important currency. By using less time searching for 
+        <p class="light"> Here at Yip, we understand that time is the most important currency. By using less time searching for
           a dining establishment, we put more time in your hands to enjoy with your friends and loved ones
           while dining at the perfect restaurant.
         </p>
@@ -152,7 +152,7 @@
     </div>
     <div class="footer-copyright">
       <div class="container">
-        <p>A dynamic application by Peter, Andrew, Brett, & Adrienne</p>
+        <p>A dynamic application by Peter, Andrew, Adrienne & Brett &copy;2020</p>
       </div>
     </div>
   </footer>
@@ -164,7 +164,7 @@
 <script>
   //Hides map when clicked outside of the map window
   $('#mapModal').on("click", function(event) {
-    
+
     if(event.target.id === "mapModal") {
       $('#mapModal').addClass('hide');
     }
@@ -173,35 +173,35 @@
   //When an address is clicked a modal appears displaying the location through google maps
   $('#results').on('click', function(event) {
     if (event.target.matches('h6')) {
-        
+
         let lat = Number(event.target.getAttribute('lat'));
         let lon = Number(event.target.getAttribute('lon'));
         let name = event.target.getAttribute('name');
-        
+
         function myMap() {
           let myLatLng = new google.maps.LatLng(lat,lon);
           var mapProp= {
           center: myLatLng,
           zoom:13,
           };
-          
+
           var marker = new google.maps.Marker({
             position: myLatLng,
             map: map,
             title: name
           });
-        
+
         var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
         marker.setMap(map);
         }
         myMap();
-   
+
         $('#mapModal').removeClass('hide');
     }
 })
 
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBN0OlGT9sf4pdgyP6FBmAl48Hvhq0EADA"></script> 
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBN0OlGT9sf4pdgyP6FBmAl48Hvhq0EADA"></script>
 <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script src="js/materialize.js"></script>
 <script src="js/init.js"></script>
