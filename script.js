@@ -16,6 +16,9 @@ $("#searchBtn1").click(function () {
     state = "";
     cuisineArr = [];
     establishmentArr = [];
+    $('#category').empty();
+    $('#establishment').empty();
+    $('#cuisine').empty();
     city = $("#searchCityId").val();
 
     if (city !== "") {
