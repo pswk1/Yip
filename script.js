@@ -205,13 +205,17 @@ function printInformation(Obj, index) {
     //not then the cuisine type is used which corresponds to one of the many 
     //default images that we have in out assets folder
     let restaurantCuisine = restaurant.cuisines.split(',')[0];
+    console.log(restaurantCuisine);
     restaurantCuisine = restaurantCuisine.replace(" ", "_");
+    console.log(restaurantCuisine);
+    
     let image;
     if (restaurant.thumb !== "") {
         image = restaurant.thumb;
 
     } else {
         image = `assets/cuisine_food_img/${restaurantCuisine}.jpg`;
+        console.log(image);
     }
 
     //These store the value of all the information that we chose to display
