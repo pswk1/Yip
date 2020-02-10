@@ -117,3 +117,6 @@ footer.footer-copyright {
   height: 0px;
   margin: 0;
 }
+.hide {
+  display: none;
+}
