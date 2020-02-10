@@ -5,11 +5,9 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>YIP</title>
-  <!-- semantic -->
-  <!-- <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css"> -->
+
   <script src="https://code.jquery.com/jquery-3.1.1.min.js"
     integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-  <!-- <script src="semantic/dist/semantic.min.js"></script> -->
   ​
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -27,16 +25,11 @@
         <div class="row center">
           <h5 id="subtitle" class="header col s12 light">A modern hipster dining app powered by Zomato</h5>
         </div>
-        <!-- <div class="row center">
-          <a href="http://materializecss.com/getting-started.html" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">Get Started</a>
-        </div> -->
         <br><br>
-        ​
       </div>
     </div>
     <div class="parallax"><img src="assets/food-1.jpg" alt="Unsplashed background img 1"></div>
   </div>
-  ​
   ​
   <div class="container">
     <div class="section">
@@ -77,12 +70,6 @@
 
       </div>
     </div>
-  </div>
-  ​
-  ​
-  <!--   Icon Section   -->
-
-  </div>
   </div>
   ​
   <div class="parallax-container valign-wrapper">
@@ -134,7 +121,6 @@
     </div>
   </div>
   ​
-  ​
   <div class="parallax-container valign-wrapper">
     <div class="section no-pad-bot">
       <div class="container">
@@ -159,15 +145,12 @@
         <div class="col l6 s12">
           <h5 class="white-text">Yip</h5>
           <p class="grey-text text-lighten-4">With Yip, you can fight indecision today.</p>
-          ​
-          ​
         </div>
       </div>
     </div>
     <div class="footer-copyright">
       <div class="container">
-        A dynamic application by <a class="blue-text text-lighten-3" href="http://materializecss.com">Peter, Andrew, Brett, &
-          Adrienne</a>
+        <p>A dynamic application by Peter, Andrew, Brett, & Adrienne</p>
       </div>
     </div>
   </footer>
@@ -177,25 +160,27 @@
   </div>
 
 <script>
+  //Hides map when clicked outside of the map window
   $('#mapModal').on("click", function(event) {
     
     if(event.target.id === "mapModal") {
       $('#mapModal').addClass('hide');
     }
   })
+
+  //When an address is clicked a modal appears displaying the location through google maps
   $('#results').on('click', function(event) {
     if (event.target.matches('h6')) {
-      
+        
         let lat = Number(event.target.getAttribute('lat'));
         let lon = Number(event.target.getAttribute('lon'));
         let name = event.target.getAttribute('name');
-        console.log(lat);
-        console.log(lon);
+        
         function myMap() {
           let myLatLng = new google.maps.LatLng(lat,lon);
           var mapProp= {
           center: myLatLng,
-          zoom:12,
+          zoom:13,
           };
           
           var marker = new google.maps.Marker({
@@ -210,21 +195,14 @@
         myMap();
    
         $('#mapModal').removeClass('hide');
-
     }
 })
 
 </script>
-
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBN0OlGT9sf4pdgyP6FBmAl48Hvhq0EADA&callback=myMap"></script>
-
-
-  <!--  Scripts-->
-  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="js/materialize.js"></script>
-  <script src="js/init.js"></script>
-  <script src="script.js"></script>
-
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBN0OlGT9sf4pdgyP6FBmAl48Hvhq0EADA"></script> 
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="js/materialize.js"></script>
+<script src="js/init.js"></script>
+<script src="script.js"></script>
 </body>
-
 </html>
