@@ -1,7 +1,7 @@
 //These are the categories and their respective Zomato ID's
 //This allows us to translate the user's preference to the 
 //corresponding Zomato search ID
-let categories = [["Delivery", 1], ["Dine-out", 2], ["Nightlife", 3], ["Carching-up", 4], ["Takeaway", 5], ["Cafes", 6], ["Daily Menus", 7], ["Breakfast", 8], ["Lunch", 9], ["Dinner", 10], ["Pubs & Bars", 11], ["Pocket Friendly Delivery", 13], ["Clubs & Lounges", 14]];
+let categories = [["Delivery", 1], ["Dine-out", 2], ["Nightlife", 3], ["Catching-up", 4], ["Takeaway", 5], ["Cafes", 6], ["Daily Menus", 7], ["Breakfast", 8], ["Lunch", 9], ["Dinner", 10], ["Pubs & Bars", 11], ["Pocket Friendly Delivery", 13], ["Clubs & Lounges", 14]];
 
 let city = "";
 let state = "";
@@ -28,6 +28,7 @@ $("#searchBtn1").click(function () {
         }).then(function (response) {
             //Shows the user the input options for cuisine, establishment, and experience
             $("#parameters").removeClass("hide");
+            console.log(response);
             cityId = response.location_suggestions[0].id;
             state = response.location_suggestions[0].state_code;
 
