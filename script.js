@@ -28,7 +28,6 @@ $("#searchBtn1").click(function () {
         }).then(function (response) {
             //Shows the user the input options for cuisine, establishment, and experience
             $("#parameters").removeClass("hide");
-            console.log(response);
             cityId = response.location_suggestions[0].id;
             state = response.location_suggestions[0].state_code;
 
@@ -206,6 +205,7 @@ function printInformation(Obj, index) {
     //not then the cuisine type is used which corresponds to one of the many 
     //default images that we have in out assets folder
     let restaurantCuisine = restaurant.cuisines.split(',')[0];
+    restaurantCuisine = restaurantCuisine.replace(" ", "_");
     let image;
     if (restaurant.thumb !== "") {
         image = restaurant.thumb;
